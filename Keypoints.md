@@ -9,5 +9,10 @@
 -if node module is not there install it through "npm install"
 -Create a repository(git init)
 -Create a file(.gitignore)
-----node_modules
+---- inside .giignore , write node_modules
 -Commit the changes(git add .)
+-then git commit -g "created server"
+-go to github.com/new
+-repository name (devTinder)
+-copy push code from github and paste it in terminal and run
+-install postman and get the url
