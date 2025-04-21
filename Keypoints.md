@@ -1,0 +1,13 @@
+-Initialize the repository
+-node module,package.json,package-lock.json
+-Install express
+-Create a server
+-Listen to port 3000
+-Write request handler for /test,/login
+-Install nodemon and update scripts insidepackage.json
+-What are dependecies
+-if node module is not there install it through "npm install"
+-Create a repository(git init)
+-Create a file(.gitignore)
+----node_modules
+-Commit the changes(git add .)
