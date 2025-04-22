@@ -1,49 +1,102 @@
 const express = require('express');
+const { connect } = require('mongoose');
 const app = express();
+const connectDB = require("./config/database");
+const User = require("./model/user");
 
-const { adminAuth, userAuth } = require("./middlewares/Auth");
-
-app.use("/admin", adminAuth);
-
-
-app.get("/admin/getAllUser",(req,res,next)=>{
-    console.log("Get all user");
-    res.send("User data sent successfully");
-    next();
-}),
-
-app.get("/getUserInfo",userAuth,(req,res,next)=>{
+app.post("/signup",async (req,res)=>{
+    //Creating a new instance of the user model
+    const user = new User({
+        firstName: "Laxmiprava",
+        lastName: "Mishra", 
+        email : "lm.doe@gmail.com",
+        password: "123456",
+        phoneNumber: 2764567890,
+        age: 30
+    })
     try{
-        throw new Error("Error occurred in the user route handler");   
-    }catch(err){   
-    res.status(500).send("Something went wrong in the userInfo");
-}
-}),
+    //Saving the user instance to the database
+     await user.save();
+     res.send("User created successfully");
+     }catch(err){
+    res.status(500).send("Error occurred while creating user");                     
+    };
+});
 
-app.use("/",(err,req,res,next)=>{
-    if(err){
-        console.log("Error occurred in the middleware");
-        res.status(500).send("Something went wrong");
-
-    }    
+connectDB()
+.then(()=>{
+    console.log("MongoDB connected successfully");
+    app.listen(8000,()=>{
+        console.log("Server is running on port 8000");
+    });
+})
+.catch((err)=>{   
+    console.log("MongoDB connection failed");
 })
 
 
-app.get("/admin/getUserById",(req,res,next)=>{     
-    console.log("Get user by id");
-    res.send("User id found successfully");
-    next();
-}),
-app.get("/admin/createUser",(req,res,next)=>{
-    console.log("Create user");
-    res.send("User created successfully");
-    next();
-}),
 
 
-app.listen(8000,()=>{
-    console.log("Server is running on port 8000");
-})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -112,3 +165,45 @@ app.use("/user",(req,res,next)=>{
     res.send("4th response from the route handler");
 })
 */
+
+
+//Middleware Examples and Error Handling
+/*
+onst { adminAuth, userAuth } = require("./middlewares/Auth");
+
+app.use("/admin", adminAuth);
+
+
+app.get("/admin/getAllUser",(req,res,next)=>{
+    console.log("Get all user");
+    res.send("User data sent successfully");
+    next();
+}),
+
+app.get("/getUserInfo",userAuth,(req,res,next)=>{
+    try{
+        throw new Error("Error occurred in the user route handler");   
+    }catch(err){   
+    res.status(500).send("Something went wrong in the userInfo");
+}
+}),
+
+app.use("/",(err,req,res,next)=>{
+    if(err){
+        console.log("Error occurred in the middleware");
+        res.status(500).send("Something went wrong");
+
+    }    
+})
+
+
+app.get("/admin/getUserById",(req,res,next)=>{     
+    console.log("Get user by id");
+    res.send("User id found successfully");
+    next();
+}),
+app.get("/admin/createUser",(req,res,next)=>{
+    console.log("Create user");
+    res.send("User created successfully");
+    next();
+})*/
