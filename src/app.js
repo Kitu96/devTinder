@@ -1,35 +1,104 @@
 const express = require('express');
 const app = express();
 
+const { adminAuth, userAuth } = require("./middlewares/Auth");
+
+app.use("/admin", adminAuth);
 
 
+app.get("/admin/getAllUser",(req,res,next)=>{
+    console.log("Get all user");
+    res.send("User data sent successfully");
+    next();
+}),
 
-app.get("/user/:userId/:name",(req,res)=>{
-    console.log(req.params);
-    res.send({fistName:"Minku",lastName:"Kitu",age:29});
-});
-
-// app.post("/user",(req,res)=>{
-//     res.send("Data has been posted successfully");
-// });
-
-// app.put("/user",(req,res)=>{
-//     res.send({fistName:"Minku",lastName:"Kitu",age:30});
-// });
+app.get("/user",userAuth,(req,res,next)=>{
+    console.log("Get all user");
+    res.send("All User data sent successfully");
+    next();
+}),
 
 
-// app.use("/login",(req,res)=>{
-//     res.send("Hello from the login route");
-// });
+app.get("/admin/getUserById",(req,res,next)=>{     
+    console.log("Get user by id");
+    res.send("User id found successfully");
+    next();
+}),
+app.get("/admin/createUser",(req,res,next)=>{
+    console.log("Create user");
+    res.send("User created successfully");
+    next();
+}),
 
-// app.use("/test", (req,res)=>{
-//     res.send("Hello from  test route");
-// });
-
-// app.use("/",(req,res)=>{
-//     res.send("Hello Kitu!!!, welcome to the world of Express.js");
-// });
 
 app.listen(8000,()=>{
     console.log("Server is running on port 8000");
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Router Examples
+
+/* app.get("/user/:userId/:name",(req,res)=>{
+    console.log(req.params);
+    res.send({fistName:"Minku",lastName:"Kitu",age:29});
+});
+
+app.post("/user",(req,res)=>{
+    res.send("Data has been posted successfully");
+});
+
+app.put("/user",(req,res)=>{
+    res.send({fistName:"Minku",lastName:"Kitu",age:30});
+});
+
+
+app.use("/login",(req,res)=>{
+    res.send("Hello from the login route");
+});
+
+app.use("/test", (req,res)=>{
+    res.send("Hello from  test route");
+});
+
+app.use("/",(req,res)=>{
+    res.send("Hello Kitu!!!, welcome to the world of Express.js");
+});
+*/
+
+
+//Middleware Examples
+
+/*
+app.use("/",(req,res,next)=>{
+    next();
+}),
+app.use("/user",(req,res,next)=>{
+    //route handler 
+    console.log("1st route handler");
+    next();
+},(req,res,next)=>{
+    //route handler 
+    console.log("2nd route handler");
+    next();
+},(req,res,next)=>{
+    //route handler 
+    console.log("3rd route handler");
+    res.send("3rd response from the route handler");
+    next();
+},(req,res,next)=>{
+    //route handler 
+    console.log("4th route handler");
+    res.send("4th response from the route handler");
+})
+*/
