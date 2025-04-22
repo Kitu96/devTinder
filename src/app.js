@@ -12,11 +12,21 @@ app.get("/admin/getAllUser",(req,res,next)=>{
     next();
 }),
 
-app.get("/user",userAuth,(req,res,next)=>{
-    console.log("Get all user");
-    res.send("All User data sent successfully");
-    next();
+app.get("/getUserInfo",userAuth,(req,res,next)=>{
+    try{
+        throw new Error("Error occurred in the user route handler");   
+    }catch(err){   
+    res.status(500).send("Something went wrong in the userInfo");
+}
 }),
+
+app.use("/",(err,req,res,next)=>{
+    if(err){
+        console.log("Error occurred in the middleware");
+        res.status(500).send("Something went wrong");
+
+    }    
+})
 
 
 app.get("/admin/getUserById",(req,res,next)=>{     
