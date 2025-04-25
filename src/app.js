@@ -14,10 +14,71 @@ app.post("/signup",async (req,res)=>{
      await user.save();
      res.send("User created successfully");
      }catch(err){
+        console.error("Error creating user:", err);
     res.status(500).send("Error occurred while creating user");                     
     };
 
 });
+
+
+//Get User ApI by Id
+app.get("/getUserById", async (req,res)=>{
+    const userId = req.query.id;      
+    try{        
+        const user = await User.findById(userId);          
+        res.send(user);
+        }
+    catch(err){
+        res.status(500).send("Something went wrong");
+    }
+})
+
+//feed ApI to get all users
+app.get("/feed", async (req,res)=>{
+    try{
+    const user = await User.find({});
+    res.send(user);
+    }catch(err){
+        res.status(500).send("Something went wrong");
+        }
+})
+
+//Delete user API
+app.delete("/deleteUser",async (req,res)=>{
+    const userId = req.body.userId;
+    try{
+        const user = await User.deleteOne({ _id:userId});
+        res.send("User deleted successfully");
+    }catch(err){
+        res.status(500).send("something went wrong");
+    }
+})
+
+//Update user API
+app.patch("/updateUser/:userId",async (req,res)=>{
+    const userId= req.body.userId;
+     const data = req.body;
+    try{
+        //DATA SANITIZATION
+        const allowedUpdates = ["age","about","photoUrl","interest","gender"];
+        const userUpdate = Object.keys(data).every((key)=>allowedUpdates.includes(key));
+        if(!userUpdate){
+            throw new Error("Invalid update operation");
+        }
+        if(data?.interest.length > 5){
+            throw new Error("Interest should not be more than 5 items");
+        }
+        if(data.age < 18 || data.age > 60){
+            throw new Error("Age should be between 18 and 60");
+        }       
+        const user = await User.findByIdAndUpdate({_id:userId}, data, { returnDocument: "after" , runValidators: true });
+        console.log("Updated user:", user);
+        res.send("user updated successfully");                   
+    }
+    catch(err){
+        res.status(500).send("InVaild user id or something went wrong" + err.message);
+    }
+})
 
 connectDB()
 .then(()=>{
