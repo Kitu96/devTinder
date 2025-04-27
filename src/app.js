@@ -3,22 +3,65 @@ const { connect } = require('mongoose');
 const app = express();
 const connectDB = require("./config/database");
 const User = require("./model/user");
+const {validateSignupData} = require("./utils/validation");
+const  bCrypt  = require("bcrypt");
 
 app.use(express.json());
 
-app.post("/signup",async (req,res)=>{
-      //Creating a new instance of the user model
-    const user = new User(req.body);
-    try{
-    //Saving the user instance to the database
-     await user.save();
-     res.send("User created successfully");
-     }catch(err){
-        console.error("Error creating user:", err);
-    res.status(500).send("Error occurred while creating user");                     
-    };
+    app.post("/signup",async (req,res)=>{
+        try{
+            console.log("Incoming request body:", req.body);
+            //Vaildate the signup data
+            validateSignupData(req);
 
-});
+            const { firstName,lastName,email,password} = req.body;           
+
+        //Hashing the password using bcrypt
+        const passwordHash = await bCrypt.hash(password, 10);
+        
+        //Creating a new instance of the user model
+        const user = new User({
+            firstName,
+            lastName,
+            email,
+            password: passwordHash,          
+        });       
+    
+        //Saving the user instance to the database
+        await user.save();
+        res.send("User created successfully");
+        }catch(err){
+            res.status(400).send("ERROR: " + err.message);                    
+        };
+
+    });
+
+    app.post("/login",async (req,res)=>{
+        try{
+            const {email,password} = req.body
+            if(!email || !password){
+                throw new Error("Email and password are required");
+            }
+
+            const user = await User.findOne({ email });
+            if(!user){
+                throw new Error("Invaild email or password");
+            }
+            const isValidPassword = bCrypt.compare(password, user.password);
+            if(isValidPassword){
+                res.send("Login successful");
+            } else{
+                throw new Error("Invalid email or password");
+            }
+
+        }catch(err){
+            res.status(400).send("ERROR: " + err.message);                    
+        }
+    })
+
+
+
+    
 
 
 //Get User ApI by Id

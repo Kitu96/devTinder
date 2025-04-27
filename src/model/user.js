@@ -1,11 +1,11 @@
 const mongoose = require( "mongoose");
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
         reuired: true,
-        maxLength: 10,
-    },
+   },
     lastName:{
         type: String,
     },
@@ -15,17 +15,19 @@ const userSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
         trim: true,
-        validate: {
-            validator: function (v) {
-                return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v);
-            },
-            message: "It is not a valid email!",
-      
-        match: [/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/, "Please fill a valid email address"],   
+        validate(value){
+            if(!validator.isEmail(value)){
+                throw new Error("Email is not valid");
             }
+        }      
     },
     password: {
         type: String,
+        validator(value){
+            if(!validator.isStrongPassword(value)){
+                throw new Error("Password is not strong enough");
+            }
+        }
     },
     phoneNumber: {
         type: Number,
