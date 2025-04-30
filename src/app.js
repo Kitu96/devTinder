@@ -1,12 +1,16 @@
 const express = require('express');
-const { connect } = require('mongoose');
+const { connect, get } = require('mongoose');
 const app = express();
 const connectDB = require("./config/database");
 const User = require("./model/user");
 const {validateSignupData} = require("./utils/validation");
 const  bCrypt  = require("bcrypt");
-
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const { userAuth } = require("./middlewares/auth");
 app.use(express.json());
+app.use(cookieParser());
+
 
     app.post("/signup",async (req,res)=>{
         try{
@@ -38,17 +42,22 @@ app.use(express.json());
 
     app.post("/login",async (req,res)=>{
         try{
-            const {email,password} = req.body
+            const {email,password} = req.body;
             if(!email || !password){
                 throw new Error("Email and password are required");
             }
-
             const user = await User.findOne({ email });
             if(!user){
                 throw new Error("Invaild email or password");
             }
-            const isValidPassword = bCrypt.compare(password, user.password);
+            // const isValidPassword = bCrypt.compare(password, user.password);
+            const isValidPassword = await user.validPassword(password);
             if(isValidPassword){
+                //Generate JWT token
+                // const token = await jwt.sign({_id : user._id},"DEV@Tinder$36",{ expiresIn: "0d" });
+                 const token = await user.getJWT();                      
+                //Add token to the cookie
+                res.cookie("token", token,{ expires: new Date(Date.now() + 900000)});
                 res.send("Login successful");
             } else{
                 throw new Error("Invalid email or password");
@@ -59,9 +68,14 @@ app.use(express.json());
         }
     })
 
-
-
-    
+   app.get("/profile", userAuth , async (req,res)=>{
+    try{
+        const user = req.user;
+              res.send(user);
+           }catch(err){
+             res.status(400).send("ERROR: " + err.message);                    
+            }
+          })
 
 
 //Get User ApI by Id
