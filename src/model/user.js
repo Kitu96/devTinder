@@ -2,6 +2,7 @@ const mongoose = require( "mongoose");
 const validator = require("validator");
 const bCrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const ConnectionRequestModel = require("./connectionRequest");
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -16,6 +17,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         lowercase: true,
+        index: true,
         trim: true,
         validate(value){
             if(!validator.isEmail(value)){
@@ -59,6 +61,8 @@ const userSchema = new mongoose.Schema({
     },
 },{
     timestamps: true,});
+
+
 
 userSchema.methods.getJWT = async function(){
     const user = this;
