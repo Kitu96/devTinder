@@ -1,25 +1,23 @@
-const express=require("express");
+const express = require("express");
 
-const app= express();
+const app=express();
 
-app.use("/user",(req,res,next)=>{
-   console.log("1st response");
-   next();
-//    res.send("1st request Handler");   
-},(req,res,next)=>{
-    console.log("2nd response");
-    // res.send("2nd request handler");
-    next();
-},(req,res,next)=>{
-    console.log("3rd response");
-    // res.send("3rd request handler");
-    next();
-},(req,res,next)=>{
-    console.log("4th response");
-    res.send("4th request handler");
-}
-);
+const {adminAuth, userAdmin}= require("./middlewares/auth");
 
+app.use("/admin",(req,res)=>{
+    console.log("Admin is authorized");
+    res.send("All data sent successfully");
+})
+
+app.use("/user", userAdmin,(req,res)=>{
+    res.send("User Data is saved")
+})
+
+app.use("/",(err,req,res,next)=>{
+    if(err){
+    res.send(500).send("Something went wrong");
+    }
+})
 app.listen(3001,()=>{
     console.log("Server is running on port 3001");
 })

@@ -33,4 +33,12 @@ Episode-04 | Routing and Request Handlers
 
 Episode-05 | Middlewares & Error Handlers
 -----------------------------------------------------------------------------------
-- 
+- Multiple Route Handlers
+- next()
+- next function and error along with res.send()
+- app.use("/route",[rH1,rH2,rH3,rH4])
+- What is middleware? and why we need it?
+- How Express Js handles requests behind the scene
+- Difference between app.use() and app.all()
+- Write dummy Auth middleware for Admin(src=>middleware=auth.js)
+- Write dummy Auth middleware for all user Routes , except /user/login
