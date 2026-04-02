@@ -3,8 +3,8 @@ Episode-03 | Creating our Express Server
 - Create Repository
 - Initialize the Repository
 - node_modules,package.json,package-lock.json
-- Install Express
-- Create a Server
+- Install Express(npm i express)
+- Create a Server(app.listen())
 - Listen to port 7777
 - Make request handler for /test,/hello
 - Install nodemon and update the script inside package.json
@@ -42,3 +42,22 @@ Episode-05 | Middlewares & Error Handlers
 - Difference between app.use() and app.all()
 - Write dummy Auth middleware for Admin(src=>middleware=auth.js)
 - Write dummy Auth middleware for all user Routes , except /user/login
+- Error Handling using app.use("/",(err,req,res,next)={})
+
+Episode-06 | Database, Schema & Models | Mongoose
+----------------------------------------------------------------
+- Install Moongse Compass
+- Go to moongose atlas and create cluster
+- mongodb+srv://mlaxmiprava:DevTinder123@firstnode.732hfkb.mongodb.net/
+- create a folder src=>config=>database.js
+- Install mongoose(npm i mongoose)
+- Go to Atlas Security → Database Access
+- Find user → mlaxmiprava -> Edit password 
+- Whitelist your IP (VERY IMPORTANT)
+          - Go to Network Access(0.0.0.0/0)
+- Connect your Application to the Database "Connection-url"/devTinder
+- Call the Database (connectDB()) function and connect to database before starting the application on 3001
+- Create a UserSchema and userModel(src=>model=>user.js)
+- Create POST /signup API to add data to database
+- Push some documents using API calls from postman
+- Error Handling using try, catch
