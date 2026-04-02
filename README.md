@@ -30,3 +30,7 @@ Episode-04 | Routing and Request Handlers
 - Use of regx in routes /a/ , /.*fly$/
 - Reading the Query params in the routes=>console.log(req.params)(http://localhost:3001/user/1001)
 - Reading the dynamic routes=>console.log(req.query)(http://localhost:3001/user?userId=1001)
+
+Episode-05 | Middlewares & Error Handlers
+-----------------------------------------------------------------------------------
+- 
