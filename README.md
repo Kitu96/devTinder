@@ -26,4 +26,7 @@ Episode-04 | Routing and Request Handlers
 - Order of routes matters alot
 - Install postman app and test API call
 - Write logic to handle GET,POST,PUT,PATCH API calls
-- 
+- Explore routing and use of ?,+,, () , * in the routes
+- Use of regx in routes /a/ , /.*fly$/
+- Reading the Query params in the routes=>console.log(req.params)(http://localhost:3001/user/1001)
+- Reading the dynamic routes=>console.log(req.query)(http://localhost:3001/user?userId=1001)
