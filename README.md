@@ -11,9 +11,19 @@ Episode-03 | Creating our Express Server
 - what are dependencies
 - what is the use of -g while installing
 - what is ~ vs ^
+- To Run "npm run dev"
 
 -------------------------------------------------
 Episode-04 | Routing and Request Handlers
 --------------------------------------------------------------
 - git init
 - .gitignore => /node_modules
+- git add .
+- git commit -m "created server"
+- create a repository in github
+- push it to locally or remote origin
+- Play with routes and route extensions ex. /hello, /test, /,
+- Order of routes matters alot
+- Install postman app and test API call
+- Write logic to handle GET,POST,PUT,PATCH API calls
+- 
