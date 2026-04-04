@@ -1,23 +1,35 @@
-const express = require("express");
+const express=require("express");
+const app= express();
+const connectDB=require("./config/database");
+const User=require("./models/user");
 
-const app=express();
-
-const {adminAuth, userAdmin}= require("./middlewares/auth");
-
-app.use("/admin",(req,res)=>{
-    console.log("Admin is authorized");
-    res.send("All data sent successfully");
-})
-
-app.use("/user", userAdmin,(req,res)=>{
-    res.send("User Data is saved")
-})
-
-app.use("/",(err,req,res,next)=>{
-    if(err){
-    res.send(500).send("Something went wrong");
+app.post("/signup", async(req,res)=>{
+    const user=await User({
+        firstName:"Laxmiprava",
+        lastName:"Mohapatra",
+        emailId:"lax@gmail.com",
+        password:"laxmi@123",
+        age:29
+    })
+    try{
+    await user.save();
+res.send("User data is saved successfully");
+    }catch(err){
+        res.status(401).send("something went wrong" + err.message);
     }
 })
-app.listen(3001,()=>{
-    console.log("Server is running on port 3001");
+
+
+
+connectDB().then(()=>{
+    console.log("Database connection established successfully");
+    app.listen(3001,()=>{
+        console.log("server is running on port no. 3001");
+    })
+}).catch((err)=>{
+ console.error("Database connection failed" + err.message);
 })
+
+
+
+
