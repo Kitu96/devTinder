@@ -67,8 +67,14 @@ Episode-07 | Diving into the APIs
 - Js Object Vs JSON
 - Add express.json() middleware to your app
 - make SignUp API dynamic to receive data from the end User
-- Find all the users stored in database(model.find({}) , model.fineOne({emailId:user.body.emailId}))
+- Find all the users stored in database(model.find({}) , model.fineOne({emailId:user.body.emailId}))==>(mongoose documentation)
 - User.findOne with duplicate emailIds, which Object returned
 - API - Get User API by emailId
 - API - Feed API  - GET /feed - all users stored in database
 - API - Get User API by Id
+- API - Create  a delete User API
+- Difference between PUT and PATCH
+- API - Update a user
+- Explore mongoose doucmentation for model methods
+- What are the Options  in a Model.findOneAndUpdate method, explore more
+- ApI - Update user with emailId
