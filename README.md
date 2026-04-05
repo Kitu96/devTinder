@@ -71,3 +71,4 @@ Episode-07 | Diving into the APIs
 - User.findOne with duplicate emailIds, which Object returned
 - API - Get User API by emailId
 - API - Feed API  - GET /feed - all users stored in database
+- API - Get User API by Id
