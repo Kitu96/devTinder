@@ -61,3 +61,13 @@ Episode-06 | Database, Schema & Models | Mongoose
 - Create POST /signup API to add data to database
 - Push some documents using API calls from postman
 - Error Handling using try, catch
+
+Episode-07 | Diving into the APIs
+--------------------------------------------------
+- Js Object Vs JSON
+- Add express.json() middleware to your app
+- make SignUp API dynamic to receive data from the end User
+- Find all the users stored in database(model.find({}) , model.fineOne({emailId:user.body.emailId}))
+- User.findOne with duplicate emailIds, which Object returned
+- API - Get User API by emailId
+- API - Feed API  - GET /feed - all users stored in database
