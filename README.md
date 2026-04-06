@@ -78,3 +78,11 @@ Episode-07 | Diving into the APIs
 - Explore mongoose doucmentation for model methods
 - What are the Options  in a Model.findOneAndUpdate method, explore more
 - ApI - Update user with emailId
+
+Episode-08 | Data Sanitization & Schema Validations
+-----------------------------------------------------------------------
+- Explore SchemaTpe Options from the documentation
+- Add required, unique,lowerCase,min,minLength,trim
+- Add default
+- Create a custom validation function in gender
+- Improve the DB schema PUT all appropriate valiadtion on each field in Schema
