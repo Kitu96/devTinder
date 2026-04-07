@@ -91,3 +91,11 @@ Episode-08 | Data Sanitization & Schema Validations
 - DATA SANITIZING- Added API validation for each field 
 - go to mongoose Validator and Install (npm i mongoose-validator)
 - Added Validator in password,emailId,photoUrl
+
+Episode-09 | Encrypting Passwords
+=======================================================================
+- Validate data in SignUp API
+- Created Src==>utils==>validate.js(validate-firstName,lastName,emailId,password)
+- Install bcrypt(npm i bcrypt)
+- Create passwordHash using bcrypt.hash(bcrypt password) && Save the user is excrupted password
+- 
