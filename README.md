@@ -89,3 +89,5 @@ Episode-08 | Data Sanitization & Schema Validations
 - Added timestamps to the userSchema
 - Added API level validation on patch request & SignUP post API
 - DATA SANITIZING- Added API validation for each field 
+- go to mongoose Validator and Install (npm i mongoose-validator)
+- Added Validator in password,emailId,photoUrl
