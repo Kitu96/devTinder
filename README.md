@@ -86,3 +86,6 @@ Episode-08 | Data Sanitization & Schema Validations
 - Add default
 - Create a custom validation function in gender
 - Improve the DB schema PUT all appropriate valiadtion on each field in Schema
+- Added timestamps to the userSchema
+- Added API level validation on patch request & SignUP post API
+- DATA SANITIZING- Added API validation for each field 

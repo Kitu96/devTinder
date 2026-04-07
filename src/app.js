@@ -54,13 +54,23 @@ app.get("/user/:id", async (req, res) => {
 
 //  Update user
 app.patch("/user/:id", async (req, res) => {
+    const userId=req.params.id;
+    const data= req.body;
   try {
+    const ALLOWED_UPDATES=["userId","photoUrl","age","skillsets","about","gender"];   
+    const isAllowedUpdates =Object.keys(data).every((k)=> ALLOWED_UPDATES.includes(k));
+     if(!isAllowedUpdates){
+      throw new Error("Cannot update!!");
+    }
     const user = await User.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true },
-      {runValidator:true}
+      userId,
+     data,
+      {returnDocument: 'after',
+      runValidators:true}
     );
+      if (!user) {
+      return res.status(404).send("User not found");
+    }
     res.send(user);
   } catch (err) {
     res.status(400).send(err.message);
