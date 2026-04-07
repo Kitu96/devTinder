@@ -98,4 +98,7 @@ Episode-09 | Encrypting Passwords
 - Created Src==>utils==>validate.js(validate-firstName,lastName,emailId,password)
 - Install bcrypt(npm i bcrypt)
 - Create passwordHash using bcrypt.hash(bcrypt password) && Save the user is excrupted password
-- 
+- Create Login API
+         - Check the emailId present in DB(findOne)
+         - compare the password(bcrypt.compare)
+-          

@@ -23,6 +23,25 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+//Login API
+app.use("/login", async(req,res)=>{
+  try{
+    const{emailId,password}= req.body;
+    const user=await User.findOne({emailId:emailId});
+    if(!user){
+      throw new Error("Invalid Credentails");
+    }
+    const isPassword= await bcrypt.compare(password,user.password);
+    if(isPassword){
+      res.send("Login Successfully!!")
+    }else{
+      throw new Error("Invalid Credentails");
+    }
+  }catch(err){
+    res.status(400).send("Login failed: " + err.message);
+  }
+})
+
 
 // Get user by email (USE QUERY PARAM)
 app.get("/user", async (req, res) => {
