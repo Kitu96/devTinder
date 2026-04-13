@@ -4,7 +4,12 @@ const connectDB = require("./config/database");
 const User = require("./models/user");
 const { signupValidator } = require("./utils/validate");
 const bcrypt = require('bcrypt');
+var cookieParser = require('cookie-parser');
+var jwt = require('jsonwebtoken');
+const { userAuth } = require("./middlewares/auth");
+
 app.use(express.json());
+app.use(cookieParser());
 
 //  SignUp API
 app.post("/signup", async (req, res) => {
@@ -13,8 +18,7 @@ app.post("/signup", async (req, res) => {
     signupValidator(req);
     //bcrypt password
     const {firstName,lastName,emailId,password}=req.body;
-    const passwordHash= await bcrypt.hash(password, 10)
-      console.log(passwordHash);
+    const passwordHash= await bcrypt.hash(password, 10);
     const user = new User({firstName,lastName,emailId,password:passwordHash});
     await user.save();
     res.send("User data is saved successfully");
@@ -33,6 +37,10 @@ app.use("/login", async(req,res)=>{
     }
     const isPassword= await bcrypt.compare(password,user.password);
     if(isPassword){
+      const token = jwt.sign({_id:user._id},"DevTinder@123",{expiresIn:"1d"});
+      res.cookie("token", token, {
+        httpOnly: true, 
+      });
       res.send("Login Successfully!!")
     }else{
       throw new Error("Invalid Credentails");
@@ -42,64 +50,28 @@ app.use("/login", async(req,res)=>{
   }
 })
 
-
-// Get user by email (USE QUERY PARAM)
-app.get("/user", async (req, res) => {
-  try {
-    const user = await User.findOne({ emailId: req.query.emailId });
-
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
-
-    res.send(user);
-  } catch (err) {
-    res.status(400).send("Something went wrong: " + err.message);
+//Profile API
+app.use("/profile", userAuth, async(req,res)=>{
+try{
+  const user=req.user;
+  res.send(user);
+  if(!user){
+    throw new Error("USer not found")
   }
-});
+}catch(err){
+  console.error("Profile not found:"+err.message);
+}
+})
 
-
-//  Get user by ID
-app.get("/user/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
-
-    res.send(user);
-  } catch (err) {
-    res.status(400).send("Bad request: " + err.message);
+//SendRequest API
+app.use("/sendrequest",userAuth, async(req,res)=>{
+  try{
+    const user= req.user;
+    res.send(user.firstName + "Send the request");
+  }catch(err){
+    console.error("Sending request failed:"+ err.message);
   }
-});
-
-
-//  Update user
-app.patch("/user/:id", async (req, res) => {
-    const userId=req.params.id;
-    const data= req.body;
-  try {
-    const ALLOWED_UPDATES=["userId","photoUrl","age","skillsets","about","gender"];   
-    const isAllowedUpdates =Object.keys(data).every((k)=> ALLOWED_UPDATES.includes(k));
-     if(!isAllowedUpdates){
-      throw new Error("Cannot update!!");
-    }
-    const user = await User.findByIdAndUpdate(
-      userId,
-     data,
-      {returnDocument: 'after',
-      runValidators:true}
-    );
-      if (!user) {
-      return res.status(404).send("User not found");
-    }
-    res.send(user);
-  } catch (err) {
-    res.status(400).send(err.message);
-  }
-});
-
+})
 
 // Feed API
 app.get("/feed", async (req, res) => {

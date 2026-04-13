@@ -102,3 +102,18 @@ Episode-09 | Encrypting Passwords
          - Check the emailId present in DB(findOne)
          - compare the password(bcrypt.compare)
 -          
+Episode-10 | Authentication, JWT & Cookies
+---------------------------------------------------------
+- Install Cookies-parser
+- Install jsonWebToken
+- Login after email and password verification, create a JWT token and send it to the user
+- Create a JWT token(jwt.sign({hidden},ScrecetKey) then Add the token to the cookies and send response back to the user.
+- Create a GET/PROFILE API and check the cookies 
+- Read the cookies inside your Profile API and find the logged In user
+- Inside /Profile API
+      - Read the cookies
+      - Extract token from the cookies
+      - verify a token symmetric(jwt.verify(token,ScretKey))
+      - Extarct Id from the decodedMessage
+      - From USer findById
+      - Send the User back
