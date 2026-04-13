@@ -35,11 +35,13 @@ app.use("/login", async(req,res)=>{
     if(!user){
       throw new Error("Invalid Credentails");
     }
-    const isPassword= await bcrypt.compare(password,user.password);
+    const isPassword= await user.validatePassword(password);
     if(isPassword){
-      const token = jwt.sign({_id:user._id},"DevTinder@123",{expiresIn:"1d"});
+      const token = await user.getJWT();
       res.cookie("token", token, {
         httpOnly: true, 
+      },{
+        expires:new Date(Date.now()+8*3600000)
       });
       res.send("Login Successfully!!")
     }else{

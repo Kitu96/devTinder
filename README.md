@@ -117,3 +117,12 @@ Episode-10 | Authentication, JWT & Cookies
       - Extarct Id from the decodedMessage
       - From USer findById
       - Send the User back
+- expires:new Date(Date.now()+8*3600000)     
+-  Create userAuth Middileare
+      - Extract token from req.cookies
+      - Verify/Validate the token 
+      - find the user by Id
+- Add the UserAuth middleware in /profile API and a new /sendrequest API      
+- Set the expiry of JWT token  and cookies to 7 days
+- Create userSchema method to getJWT()
+- Create userSchema method to validatePassword(userInputPassword)
