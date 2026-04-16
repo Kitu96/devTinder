@@ -126,3 +126,12 @@ Episode-10 | Authentication, JWT & Cookies
 - Set the expiry of JWT token  and cookies to 7 days
 - Create userSchema method to getJWT()
 - Create userSchema method to validatePassword(userInputPassword)
+
+Episode-11 | Diving into the APIs and express Router
+-----------------------------------------------------------------------
+- create routes folder(src=>routes=>authRouter,profileRouter,requestRouter(express.Router()))
+- Import those router in app.use
+      app.use("/",authRouter);
+      app.use("/",profileRouter)
+      app.use("/",requestRouter)
+
