@@ -5,9 +5,9 @@ const authRouter = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookie = require('cookie-parser');
+const { userAuth } = require('../middlewares/auth');
 
-
-authRouter.post("/signup", async (req, res) => {
+authRouter.post("/signup",  userAuth, async (req, res) => {
     try {
         signupValidator(req);
         const { firstName, lastName, emailId, password } = req.body;
@@ -19,7 +19,6 @@ authRouter.post("/signup", async (req, res) => {
         res.status(400).send("Unauthorized user:" + err.message);
     }
 })
-
 //Login API
 authRouter.use("/login", async(req,res)=>{
   try{
@@ -43,6 +42,12 @@ authRouter.use("/login", async(req,res)=>{
   }catch(err){
     res.status(400).send("Login failed: " + err.message);
   }
+})
+
+//Logout API
+authRouter.use("/logout", (req,res)=>{
+  res.cookie("token", null ,{expires: new Date(Date.now())});
+  res.send("Logout successfully!");
 })
 
 module.exports = authRouter;

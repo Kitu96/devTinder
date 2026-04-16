@@ -1,4 +1,5 @@
 const express= require('express');
+const { userAuth } = require('../middlewares/auth');
 const profileRouter= express.Router();
 
 profileRouter.use("/profile", userAuth, async(req,res,next) => {
