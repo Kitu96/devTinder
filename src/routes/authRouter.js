@@ -49,5 +49,20 @@ authRouter.use("/logout", (req,res)=>{
   res.cookie("token", null ,{expires: new Date(Date.now())});
   res.send("Logout successfully!");
 })
-
+// Change Password
+authRouter.patch("/changepassword", userAuth, async(req,res)=>{
+  try{
+  const {oldPassword,newPassword}=req.body;
+    const user = req.user;
+  const isPassword= await user.validatePassword(oldPassword);
+  if(!isPassword){
+    throw new Error("Old password is incorrect");
+  }
+  const checkPassword=await bcrypt.hash(newPassword,10);
+  await user.save();
+  res.send("Password updated successfully");
+}catch(err){
+  res.status(400).send("Error:" + err.message);
+}
+})
 module.exports = authRouter;

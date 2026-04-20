@@ -135,3 +135,7 @@ Episode-11 | Diving into the APIs and express Router
       app.use("/",profileRouter)
       app.use("/",requestRouter)
 
+- Create Logout API
+- Create PATCH /Profile/edit
+- Create Change Password
+- Create PATCH /Profile/password ==>forgot passowrd

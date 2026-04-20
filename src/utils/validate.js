@@ -10,4 +10,12 @@ const signupValidator=(req)=>{
     }
 }
 
-module.exports={signupValidator};
+const profileValidation =(req)=>{
+    const ALLOW_UPDATES = ["firstName","lastName","emailId","about","age","skillsets","photoUrl"];
+    const isValid= Object.keys(req.body).every(k=>ALLOW_UPDATES.includes(k));
+    if(!isValid){
+       throw new Error("Unable to update Data");
+    }
+}
+
+module.exports={signupValidator,profileValidation};
