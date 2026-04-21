@@ -4,6 +4,16 @@ const profileRouter= express.Router();
 const {profileValidation} = require('../utils/validate');
 const User = require('../models/user');
 
+// Feed API
+profileRouter.get("/feed", async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (err) {
+    res.status(500).send("Something went wrong: " + err.message);
+  }
+});
+
 profileRouter.use("/profile/view", userAuth, async(req,res,next) => {
     try{      
         const user= req.user;

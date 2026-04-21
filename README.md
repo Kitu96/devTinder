@@ -139,3 +139,19 @@ Episode-11 | Diving into the APIs and express Router
 - Create PATCH /Profile/edit
 - Create Change Password
 - Create PATCH /Profile/password ==>forgot passowrd
+
+Episode-12 | Logical DB Query & Compound Indexes
+----------------------------------------------------------------------------------
+- Create connectionRequest Schema(fromUserId,toUserId,status,timestap)
+- Create connectionRequest API
+- Proper Validation of Data
+- Think About ALL corner Cases
+        - validate status(either interested/ignored)
+        - Can't send request to  yourself(connectionRequestSchema.pre("save",) SchemaLevel)
+        - can't send request toUserId to fromUserId($or)
+        - can't send request any other Id(findById)
+- $or  and $and Query in mongooses
+- Schema.pre("save") function       
+- Why do we need indexes in DB?
+- What is advantages and disadvantages of creating?
+- compound Indexes(fromUser:1,toUserId:1)

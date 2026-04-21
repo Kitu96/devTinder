@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookie = require('cookie-parser');
 const { userAuth } = require('../middlewares/auth');
+const crypto= require('crypto');
 
 authRouter.post("/signup",  userAuth, async (req, res) => {
     try {
@@ -65,4 +66,34 @@ authRouter.patch("/changepassword", userAuth, async(req,res)=>{
   res.status(400).send("Error:" + err.message);
 }
 })
+
+//Forgot password 
+authRouter.post("/forgot-password", async (req, res) => {
+    try {
+        const { emailId } = req.body;
+        const user = await User.findOne({ emailId });
+        if (!user) {
+            throw new Error("User not found");
+        }
+        // generate token
+        const resetToken = crypto.randomBytes(32).toString("hex");
+
+        // hash token (store securely)
+        const hashedToken = await bcrypt.hash(resetToken, 10);
+
+        user.resetToken = hashedToken;
+        user.resetTokenExpiry = Date.now() + 15 * 60 * 1000; // 15 mins
+
+        await user.save();
+
+        res.send({
+            message: "Reset link generated",
+            token: resetToken
+        });
+
+    } catch (err) {
+        res.status(400).send("Error: " + err.message);
+    }
+});
+
 module.exports = authRouter;
