@@ -172,4 +172,11 @@ Episode-13 | ref, Populate & Thought process of writing APIs
        - find connectionRequest({status:"interested", toUserId:loggedInUser._id})
        - Establish Connection using "ref"(ref:"User") in connectionRequestSchma level
        - Add .populate("fromUserId", ["firstName","lastName"])
-- 
+
+- Created user/requests API
+           - loggedInUser:req.user 
+           - find connectionRequest($or:[
+                {toUserId:loggedInUser._id , status:"accepted"},
+                {fromUserId:loggedInUser._id, status:"accepted"}
+            ])
+            -  const data= connectionRequest.map((row)=>row.fromUserId); // only filter required fields
