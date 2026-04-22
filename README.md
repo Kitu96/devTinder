@@ -155,3 +155,15 @@ Episode-12 | Logical DB Query & Compound Indexes
 - Why do we need indexes in DB?
 - What is advantages and disadvantages of creating?
 - compound Indexes(fromUser:1,toUserId:1)
+
+Episode-13 | ref, Populate & Thought process of writing APIs
+---------------------------------------------------------------------
+- Created /request/review/:status/:requestId API
+         - Check  loggedInUser = req.user; and status,requestId:req.params
+         - validate status(either accepted/rejected)
+         - .findOne({
+                 _id: requestId,
+                  status: "interested",
+                  toUserId: loggedInUser._id})
+          - update status(connectionRequest.status = status;)        
+

@@ -10,7 +10,7 @@ requestRouter.use("/request/send/:status/:toUserId" ,userAuth, async(req,res)=>{
     const toUserId=req.params.toUserId;
     const status=req.params.status;
 
-    //
+    //validate status(either interested/ignored)
     const ALLOWED_STATUS =["interested" ,"ignored"];
     if(!ALLOWED_STATUS.includes(status)){
       throw new Error("Invalid status type");
@@ -45,6 +45,41 @@ requestRouter.use("/request/send/:status/:toUserId" ,userAuth, async(req,res)=>{
     res.status(400).send("Sending request failed:" + err.message);
  }
 })
+
+requestRouter.post("/request/review/:status/:requestId", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+    const { status, requestId } = req.params;
+
+    const ALLOWED_STATUS = ["accepted", "rejected"];
+    if (!ALLOWED_STATUS.includes(status)) {
+      throw new Error("Invalid status type");
+    }
+
+    const connectionRequest = await ConnectionRequest.findOne({
+      _id: requestId,
+      status: "interested",
+      toUserId: loggedInUser._id
+    });
+
+    if (!connectionRequest) {
+      return res.status(404).send("Connection request not found");
+    }
+
+    // ✅ update status
+    connectionRequest.status = status; 
+
+    const data = await connectionRequest.save();
+
+    res.status(200).json({
+      message: `Request ${status}`,
+      data
+    });
+
+  } catch (err) {
+    res.status(400).send("Request failed: " + err.message);
+  }
+});
 
 
 
